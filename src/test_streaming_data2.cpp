@@ -231,6 +231,7 @@ static void  enable_notifications(void *context, const void *caller, const MblMw
     // Verify if the connection exist
     if (gattChar == nullptr){
         std::cerr << "Error: Characteristic not found for UUID: " << uuid_str << std::endl;
+        ready(caller, MBL_MW_STATUS_ERROR_ENABLE_NOTIFY);
         return;
     }
 
@@ -397,8 +398,8 @@ int main(int argc, char** argv) {
     NumberArgc = argc;
 
     connectionWarbleGatt();
-    // MetaMotionBtleConnection = {gatt, write_gatt_char, read_gatt_char, enable_notifications, on_disconnect};
-    MetaMotionBtleConnection = {write_gatt_char, read_gatt_char, enable_notifications, on_disconnect};
+    MetaMotionBtleConnection = {gatt, write_gatt_char, read_gatt_char, enable_notifications, on_disconnect};
+    // MetaMotionBtleConnection = {write_gatt_char, read_gatt_char, enable_notifications, on_disconnect};
     board = mbl_mw_metawearboard_create(&MetaMotionBtleConnection);
     MetaMotionInitialize();
     printf("Hola Mundo\n");
